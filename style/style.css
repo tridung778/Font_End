@@ -162,7 +162,7 @@
 /* Paralaxx */
 .parallax1 {
   margin-top: 50px;
-  background-image: url("/img/img/DaNang2.jpg");
+  background-image: url("../img/DaNang2.jpg");
   min-height: 300px;
   background-attachment: fixed;
   background-position: center;
@@ -173,7 +173,7 @@
 .parallax2 {
   margin-top: 50px;
   margin-bottom: 50px;
-  background-image: url("/img/img/TrungQuoc4.jpg");
+  background-image: url("../img/TrungQuoc4.jpg");
   min-height: 300px;
   background-attachment: fixed;
   background-position: center;
