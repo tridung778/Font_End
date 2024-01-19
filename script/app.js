@@ -23,3 +23,36 @@ $(document).ready(function () {
     audio.play();
   });
 });
+
+// Card carousel
+
+var multipleCardCarousel = document.querySelector("#carouselExampleControls");
+
+if (window.matchMedia("(min-width: 576px)").matches) {
+  var carousel = new bootstrap.Carousel(multipleCardCarousel, {
+    interval: false,
+  });
+  var carouselWidth = $(".Carousel-Inner")[0].scrollWidth;
+  var cardWidth = $(".Carousel-Item").width();
+  var scrollPosition = 0;
+  $("#carouselExampleControls .carousel-control-next").on("click", function () {
+    if (scrollPosition < carouselWidth - cardWidth * 3) {
+      scrollPosition += cardWidth;
+      $("#carouselExampleControls .Carousel-Inner").animate(
+        { scrollLeft: scrollPosition },
+        600
+      );
+    }
+  });
+  $("#carouselExampleControls .carousel-control-prev").on("click", function () {
+    if (scrollPosition > 0) {
+      scrollPosition -= cardWidth;
+      $("#carouselExampleControls .Carousel-Inner").animate(
+        { scrollLeft: scrollPosition },
+        600
+      );
+    }
+  });
+} else {
+  $(multipleCardCarousel).addClass("slide");
+}
