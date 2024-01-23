@@ -1,6 +1,4 @@
-var module = angular.module("myApp", []);
-
-module.controller("myCtrl", function ($scope, $rootScope) {
+myApp.controller("gioHangCtrl", function ($scope, $rootScope) {
   $scope.Tours = [
     {
       img: "DaNang.jpg",
