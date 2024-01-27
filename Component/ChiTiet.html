@@ -1,0 +1,105 @@
+<head>
+    <style>
+        .img-thumbnail:hover {
+            cursor: pointer;
+        }
+
+        body {
+            margin-top: 100px;
+        }
+
+        .img-main {
+            width: 745px;
+            height: 435px;
+        }
+
+        @media screen and (max-width:992px) {
+            .img-main {
+                width: 370px;
+                height: 215px;
+            }
+        }
+
+        .img-thumbnail {
+            -webkit-filter: grayscale(100%);
+            filter: grayscale(100%);
+            -webkit-transition: .3s ease-in-out;
+            transition: .3s ease-in-out;
+        }
+
+        .img-thumbnail:hover {
+            -webkit-filter: grayscale(0);
+            filter: grayscale(0);
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="container my-5">
+            <h1>{{detailPro.name}}</h1>
+            <div class="me-5 mb-2">
+                <img src="./img/{{detailPro.rating}}.png" alt="">
+                <span>{{detailPro.ratingCount}} đánh giá</span>
+                <span><i class="bi bi-eye"></i>{{detailPro.view}}</span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-7">
+                    <img id="img-main" src="{{detailPro.image}}" class="img-main img-fluid rounded-top" alt="" />
+                    <div class="d-flex mt-2 border border-black">
+                        <img ng-repeat="thumbnailSrc in detailPro.thumbnail track by $index" ng-src="{{thumbnailSrc}}"
+                            class="img-thumbnail img-fluid" style="width: 100px; height: 100px;" alt=""
+                            ng-mouseover="changeMainImage(thumbnailSrc)" ng-mouseout="resetMainImage()" />
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <h3>{{detailPro.name}}</h3>
+                    <li>Mã tour: <span>{{detailPro.id}}</span></li>
+                    <li>Đánh giá: <img src="./img/{{detailPro.rating}}.png" alt=""></li>
+                    <li>Thời gian: <span>{{detailPro.duration}}</span></li>
+                    <li>Di chuyển: <span>{{detailPro.vehicle}}</span></li>
+                    <li>Giá: <span class="change-color">{{detailPro.price|number}} ₫</span></li>
+                    <div class="mt-5">
+                        <button class="btn btn-success">Đặt tour</button>
+                        <button class="btn btn-warning">Thêm vào giỏ hàng</button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <h2>Mô tả</h2>
+            <div class="border border-black px-3 fs-5">
+                <p>Tour du lịch "{{detailPro.name}}" là một hành trình kỳ nghỉ tuyệt vời, thiết kế đặc biệt
+                    để
+                    mang lại trải nghiệm tuyệt vời nhất cho du khách. Từ thành phố ồn ào, chúng ta sẽ bắt đầu hành trình
+                    của mình để khám phá những địa điểm tuyệt vời và tràn ngập yên bình.</p>
+                <p>Ngày 1: "Bắt đầu hành trình"
+                    Khởi hành từ thành phố năng động, chúng ta sẽ di chuyển đến một thị trấn nhỏ nằm giữa thung lũng
+                    xanh mướt. Đây là nơi du khách sẽ trải nghiệm sự tĩnh lặng, thư giãn và ngắm nhìn cảnh đẹp hùng vĩ
+                    của núi rừng xanh um.</p>
+                <p>Ngày 2: "Khám phá văn hóa địa phương"
+                    Hôm nay, chúng ta sẽ thăm làng truyền thống nơi du khách có cơ hội tương tác với cộng đồng địa
+                    phương. Thực phẩm ngon miệng, nghệ thuật thủ công truyền thống và những câu chuyện về lịch sử độc
+                    đáo sẽ làm cho ngày hôm nay trở nên đáng nhớ.</p>
+                <p>Ngày 3: "Dạo chơi qua cánh rừng hoang sơ"
+                    Chúng ta sẽ bắt đầu một chuyến phiêu lưu qua rừng hoang sơ, với hướng dẫn viên giàu kinh nghiệm. Đây
+                    sẽ là cơ hội để khám phá các loài thực vật và động vật độc đáo chỉ có thể tìm thấy trong khu vực
+                    này.</p>
+                <p>Ngày 4: "Nhìn ngắm bình minh trên đỉnh núi"
+                    Sớm hôm nay, chúng ta sẽ leo lên đỉnh núi để chứng kiến cảnh bình minh tuyệt vời. Nơi đây cung cấp
+                    một tầm nhìn toàn cảnh vô song của cảnh đẹp tự nhiên và sự yên bình mà ít nơi nào có thể sánh kịp.
+                </p>
+                <p>Ngày 5: "Kết thúc hành trình"
+                    Hôm nay là ngày cuối cùng của hành trình. Chúng ta sẽ trở về thành phố với những kí ức đáng nhớ và
+                    trái tim tràn đầy niềm vui sau một tuần trải nghiệm tuyệt vời trên "{{detailPro.name}}".
+                </p>
+                <p>Tour "{{detailPro.name}}" không chỉ là một chuyến đi du lịch thông thường mà còn là một
+                    cuộc
+                    phiêu lưu tâm hồn, mang lại cho du khách cơ hội khám phá vẻ đẹp hoang sơ và sự hòa mình vào không
+                    gian yên bình của thiên nhiên.</p>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

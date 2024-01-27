@@ -25,7 +25,7 @@
                                             <label>Tên đăng nhập<span class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
-                                                <input type="text" class="form-control"
+                                                <input ng-model="username" type="text" class="form-control"
                                                     placeholder="Nhập tên đăng nhập">
                                             </div>
                                         </div>
@@ -34,15 +34,17 @@
                                             <label>Mật khẩu<span class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
-                                                <input type="text" class="form-control" placeholder="Nhập mật khẩu">
+                                                <input ng-model="password" id="myInput" type="password"
+                                                    class="form-control" placeholder="Nhập mật khẩu">
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="inlineFormCheck">
-                                                <label class="form-check-label" for="inlineFormCheck">Lưu thông tin đăng
-                                                    nhập</label>
+                                                <input class="form-check-input" type="checkbox" onclick="myFunction()"
+                                                    id="inlineFormCheck">
+                                                <label class="form-check-label" for="inlineFormCheck">Hiện mật
+                                                    khẩu</label>
                                             </div>
                                         </div>
 
@@ -52,7 +54,7 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <a href="#!home" class="btn btn-success px-4 float-end mt-4">Đăng
+                                            <a ng-click="checkLogin()" class="btn btn-success px-4 float-end mt-4">Đăng
                                                 nhập</a>
                                         </div>
                                     </form>

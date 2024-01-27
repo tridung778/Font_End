@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <title>TD Travel</title>
@@ -28,7 +28,7 @@
     <audio autoplay>
         <source src="audio/y2mate.com - Long Phụng Sum Vầy  Lo  Fi Vers By TBin.mp3" type="audio/mpeg">
     </audio>
-    <div ng-include="'Component/Header.html'"></div>
+    <div ng-include="'Component/Header.html'" ng-controller="homeCtrl"></div>
     <div ng-view></div>
     <div ng-include="'Component/Footer.html'"></div>
 
@@ -53,6 +53,7 @@
     <script src="script/app.js"></script>
     <script src="script/GioHang.js"></script>
     <script src="script/hoaRoi.js"></script>
+    <script src="script/login.js"></script>
 </body>
 
 </html>

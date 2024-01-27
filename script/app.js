@@ -4,14 +4,91 @@ myApp.controller(
   "homeCtrl",
   function ($scope, $rootScope, $routeParams, $http) {
     $scope.products = [];
-    //Đọc dữ liệu từ file json
-    $http.get("data/tourTrongNuoc.json").then(function (response) {
+    $rootScope.tours = [];
+    $rootScope.tour = {};
+    $rootScope.test = 0;
+    $rootScope.groupedToursArray = []; // Khai báo groupedToursArray ở đây
+    $rootScope.quantity = 0;
+
+    $rootScope.tinhTongTienTours = function () {
+      let tongTienTours = 0;
+      angular.forEach($rootScope.groupedToursArray, function (tour) {
+        tongTienTours += tour.price * tour.quantity;
+      });
+      $rootScope.tongTienTours = tongTienTours;
+    };
+
+    $rootScope.xoaTour = function (tour) {
+      console.log("Xóa tour với id:", tour.id);
+      var index = $rootScope.groupedToursArray.findIndex(
+        (t) => t.id === tour.id
+      );
+      console.log("Index của tour cần xóa:", index);
+      if (index !== -1) {
+        $rootScope.groupedToursArray.splice(index, 1);
+        // Gọi hàm tính tổng tiền sau khi xóa tour
+        $rootScope.tinhTongTienTours();
+      }
+    };
+
+    // Đọc dữ liệu từ file json
+    $http.get("data/tour.json").then(function (response) {
       $scope.products = response.data;
-      console.log($scope.products[1].name);
-      //Khúc này là chuyển từ id để lấy sản phẩm
-      $scope.detailPro = $scope.products.find(
+
+      $scope.count = function (name) {
+        $rootScope.test++;
+        var newUserCopy = angular.copy(name);
+        var existingTourIndex = $rootScope.tours.findIndex(
+          (tour) => tour.id === newUserCopy.id
+        );
+
+        if (existingTourIndex !== -1) {
+          // Nếu tour đã tồn tại, tăng giá trị quantity của tour cụ thể
+          $rootScope.tours[existingTourIndex].quantity++;
+        } else {
+          // Nếu tour chưa tồn tại, thêm mới và đặt quantity là 1
+          newUserCopy.quantity = 1;
+          $rootScope.tours.push(newUserCopy);
+        }
+
+        // Tính tổng quantity từ tất cả các tours
+        $rootScope.quantity = $rootScope.tours.reduce(
+          (total, tour) => total + tour.quantity,
+          0
+        );
+
+        // Gộp dữ liệu ở đây
+        var groupedTours = {};
+        for (var i = 0; i < $rootScope.tours.length; i++) {
+          var tour = $rootScope.tours[i];
+          if (!groupedTours[tour.id]) {
+            groupedTours[tour.id] = tour;
+          } else {
+            groupedTours[tour.id].price += tour.price;
+            groupedTours[tour.id].duration += tour.duration;
+            groupedTours[tour.id].quantity += tour.quantity;
+          }
+        }
+
+        // Cập nhật biến groupedToursArray
+        $rootScope.groupedToursArray = Object.values(groupedTours);
+        $rootScope.tinhTongTienTours();
+      };
+
+      // Lấy sản phẩm với id tương ứng
+      var foundProduct = $scope.products.find(
         (item) => item.id == $routeParams.id
       );
+      $scope.detailPro = foundProduct;
+
+      $scope.changeMainImage = function (thumbnailSrc) {
+        $scope.detailPro.image = thumbnailSrc;
+      };
+
+      $scope.resetMainImage = function () {
+        $scope.detailPro.image = $scope.detailPro.originalImage;
+      };
+      $scope.detailPro.originalImage = $scope.detailPro.image;
     });
   }
 );
@@ -28,11 +105,11 @@ myApp.config(function ($routeProvider) {
     })
     .when("/login", {
       templateUrl: "Component/login.html",
-      controller: "myCtrl",
+      controller: "loginCtrl",
     })
     .when("/signup", {
       templateUrl: "Component/signup.html",
-      controller: "myCtrl",
+      controller: "loginCtrl",
     })
     .when("/gioithieu", {
       templateUrl: "Component/GioiThieu.html",
@@ -41,6 +118,10 @@ myApp.config(function ($routeProvider) {
     .when("/giohang", {
       templateUrl: "Component/GioHang.html",
       controller: "gioHangCtrl",
+    })
+    .when("/chitiet/:id", {
+      templateUrl: "Component/ChiTiet.html",
+      controller: "homeCtrl",
     })
     .otherwise({
       templateUrl: "Component/Home.html",

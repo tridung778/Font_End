@@ -69,13 +69,13 @@
 .hover14{
     text-align: center;
     align-items: center;
-    height: 500px;
+    height: 440px;
 } 
 .hover14:hover{
   border: 1px #11998e solid ;
 } 
 .hover14>figure> img{
-  width: 305px;
+  width: 300px;
   height: 200px;
 }
 
@@ -83,10 +83,10 @@
   .hover14{
     text-align: center;
     align-items: center;
-    height: 520px;
+    height: 440px;
   } 
   .hover14>figure> img{
-    width: 370px;
+    width: 345px;
     height: 200px;
   }
 }
@@ -121,6 +121,7 @@
   border: solid 1px #69cec2;
   cursor: pointer;
 }
+
 .buttons button:after, .buttons button:before {
   width: 0%;
   height: 0%;

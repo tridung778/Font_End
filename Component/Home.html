@@ -48,23 +48,27 @@
             <div class="eight my-5">
                 <h1>DU LỊCH TRONG NƯỚC</h1>
             </div>
-
             <!-- My code -->
             <div class="container mt-3">
                 <div class="row">
                     <div class="col-sm-6 col-md-4 col-lg-3 my-3"
-                        ng-repeat="p in products | filter: keySearch | limitTo: max : page | orderBy : sort">
+                        ng-repeat="p in products | filter: {kind: 'trong nước', name: ''}  | limitTo: max : page | orderBy : sort">
                         <div class="card hover14 position-relative">
-                            <figure><img src="./img/{{p.image}}.jpeg" class="card-img-top" alt="..."></figure>
+                            <figure><img src="{{p.image}}" class="card-img-top" alt="...">
+                            </figure>
                             <div class="card-body">
                                 <h5>{{p.name}}</h5>
-                                <h6>Đánh giá: <img src="./img/{{p.rating}}.jpeg" alt=""></h6>
+                                <h6>Đánh giá: <img src="./img/{{p.rating}}.png" alt=""></h6>
                                 <h6>Thời gian: <span>{{p.duration}}</span></h6>
                                 <h6>Di chuyển: <span>{{p.vehicle}}</span></h6>
-                                <h6>{{p.price}} ₫</h6>
+                                <h6 class="change-color">{{p.price | number}} ₫</h6>
                                 <div class="buttons">
-                                    <a href="#!detail/{{p.id}}"><button class="cta-01"><span>Đặt
-                                                tour</span></button></a>
+                                    <a href="#!chitiet/{{p.id}}"><button class="cta-01 mx-2"><span>Xem chi
+                                                tiết</span></button></a>
+                                    <a><button id="product" class="cta-01 toss-effect" ng-click="count(p)"><span>Thêm
+                                                vào
+                                                giỏ
+                                                hàng</span></button></a>
                                 </div>
                             </div>
                         </div>
@@ -79,123 +83,29 @@
                 <h1>DU LỊCH NƯỚC NGOÀI</h1>
             </div>
             <div class="row">
-                <div class="col-md-3 mt-3 mx-auto">
-                    <div class="card hover14">
-                        <figure><img src="./img/Uc.webp" class="card-img-top" alt="..."></figure>
-                        <div class="card-body">
-                            <h5>DU LỊCH ÚC: SYDNEY - MELBOURNE TẾT 2024</h5>
-                            <h6>Đánh giá: <img src="./img/Star_rating_3_of_5.png" alt=""></h6>
-                            <h6>Thời gian: <span>8 Ngày 7 Đêm</span></h6>
-                            <h6>Di chuyển: <span>VIETJET AIR</span></h6>
-                            <h6>52.990.000 ₫</h6>
-                            <div class="buttons">
-                                <button class="cta-01"><span>Đặt tour</span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-3 mx-auto mt-3">
-                    <div class="card hover14">
-                        <figure><img src="./img/Uc1.jpg" class="card-img-top" alt="..."></figure>
-                        <div class="card-body">
-                            <h5>DU LỊCH ÚC: SYDNEY - MELBOURNE (Q1/2024)</h5>
-                            <h6>Đánh giá: <img src="./img/Star_rating_4_of_5.png" alt=""></h6>
-                            <h6>Thời gian: <span>8 Ngày 7 Đêm</span></h6>
-                            <h6>Di chuyển: <span>VIETJET AIR</span></h6>
-                            <h6>51.990.000 ₫</h6>
-                            <div class="buttons">
-                                <button class="cta-01"><span>Đặt tour</span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-3 mx-auto">
-                    <div class="card hover14">
-                        <figure><img src="./img/TrungQuoc.jpg" class="card-img-top" alt="..."></figure>
-                        <div class="card-body">
-                            <h5>DU LỊCH TRUNG QUỐC: THƯỢNG HẢI - VÔ TÍCH - TÔ CHÂU - HÀNG CHÂU (TẾT 2024)</h5>
-                            <h6>Đánh giá: <img src="./img/Star_rating_3_of_5.png" alt=""></h6>
-                            <h6>Thời gian: <span>5 ngày 4 đêm</span></h6>
-                            <h6>Di chuyển: <span>Máy bay + xe du lịch</span></h6>
-                            <h6>16.990.000 ₫</h6>
-                            <div class="buttons">
-                                <button class="cta-01"><span>Đặt tour</span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-3 mx-auto">
-                    <div class="card hover14">
-                        <figure><img src="./img/TrungQuoc1.jpg" class="card-img-top" alt="..."></figure>
-                        <div class="card-body">
-                            <h5>DU LỊCH TRUNG QUỐC: KHÁM PHÁ BẮC KINH - THƯỢNG HẢI - HÀNG CHÂU - Ô TRẤN</h5>
-                            <h6>Đánh giá: <img src="./img/Star_rating_5_of_5.png" alt=""></h6>
-                            <h6>Thời gian: <span>7 ngày 6 đêm</span></h6>
-                            <h6>Di chuyển: <span>CATHAY PACIFIC</span></h6>
-                            <h6>22.990.000 ₫</h6>
-                            <div class="buttons">
-                                <button class="cta-01"><span>Đặt tour</span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-3 mx-auto">
-                    <div class="card hover14">
-                        <figure><img src="./img/TrungQuoc2.jpg" class="card-img-top" alt="..."></figure>
-                        <div class="card-body">
-                            <h5>DU LỊCH TRUNG QUỐC KHÁM PHÁ BẮC KINH - THƯỢNG HẢI - HÀNG CHÂU - Ô TRẤN (2024)</h5>
-                            <h6>Đánh giá: <img src="./img/Star_rating_5_of_5.png" alt=""></h6>
-                            <h6>Thời gian: <span>4 Ngày 3 Đêm</span></h6>
-                            <h6>Di chuyển: <span>VIETNAM AIRLINES</span></h6>
-                            <h6>22.990.000 ₫</h6>
-                            <div class="buttons">
-                                <button class="cta-01"><span>Đặt tour</span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-3 mx-auto">
-                    <div class="card hover14">
-                        <figure><img src="./img/TrungQuoc3.jpg" class="card-img-top" alt="...">
-                        </figure>
-                        <div class="card-body">
-                            <h5>DU LỊCH HỒNG KÔNG 4N3Đ Q2,3/2024 (BAY VJ)</h5>
-                            <h6>Đánh giá: <img src="./img/Star_rating_4_of_5.png" alt=""></h6>
-                            <h6>Thời gian: <span>4 ngày 3 đêm</span></h6>
-                            <h6>Di chuyển: <span>VIETJET AIR</span></h6>
-                            <h6>12.990.000 ₫</h6>
-                            <div class="buttons">
-                                <button class="cta-01"><span>Đặt tour</span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-3 mx-auto">
-                    <div class="card hover14">
-                        <figure><img src="./img/NhatBan.jpg" class="card-img-top" alt="..."></figure>
-                        <div class="card-body">
-                            <h5>DU LỊCH NHẬT BẢN: KANSAI - TOKYO - YAMANASHI - OSAKA - NARA (TẾT 2024)</h5>
-                            <h6>Đánh giá: <img src="./img/Star_rating_1_of_5.png" alt=""></h6>
-                            <h6>Thời gian: <span>6 ngày 5 đêm</span></h6>
-                            <h6>Di chuyển: <span> VIETJET AIR</span></h6>
-                            <h6>35.888.000 ₫</h6>
-                            <div class="buttons">
-                                <button class="cta-01"><span>Đặt tour</span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-3 mx-auto">
-                    <div class="card hover14">
-                        <figure><img src="./img/ThuySi.jpg" class="card-img-top" alt="..."></figure>
-                        <div class="card-body">
-                            <h5>DU LỊCH BẮC ÂU: THỤY ĐIỂN - PHẦN LAN - NAUY - ĐAN MẠCH (TẾT 2024)</h5>
-                            <h6>Đánh giá: <img src="./img/Star_rating_5_of_5.png" alt=""></h6>
-                            <h6>Thời gian: <span>11 Ngày 10 Đêm</span></h6>
-                            <h6>Di chuyển: <span>TURKISH AIRLINES</span></h6>
-                            <h6>101.990.000 ₫</h6>
-                            <div class="buttons">
-                                <button class="cta-01"><span>Đặt tour</span></button>
+                <div class="container mt-3">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-4 col-lg-3 my-3"
+                            ng-repeat="p in products | filter: {kind: 'quốc tế'} | limitTo: max : page | orderBy : sort">
+                            <div class="card hover14 position-relative">
+                                <figure><img src="{{p.image}}" class="card-img-top" alt="...">
+                                </figure>
+                                <div class="card-body">
+                                    <h5>{{p.name}}</h5>
+                                    <h6>Đánh giá: <img src="./img/{{p.rating}}.png" alt=""></h6>
+                                    <h6>Thời gian: <span>{{p.duration}}</span></h6>
+                                    <h6>Di chuyển: <span>{{p.vehicle}}</span></h6>
+                                    <h6 class="change-color">{{p.price | number}} ₫</h6>
+                                    <div class="buttons">
+                                        <a href="#!chitiet/{{p.id}}"><button class="cta-01 mx-2"><span>Xem chi
+                                                    tiết</span></button></a>
+                                        <a><button id="product" class="cta-01 toss-effect"
+                                                ng-click="count(p)"><span>Thêm
+                                                    vào
+                                                    giỏ
+                                                    hàng</span></button></a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -211,14 +121,14 @@
     <div id="fb-root"></div>
 
     <!-- Your Plugin chat code -->
-    <div id="fb-customer-chat" class="fb-customerchat">
+    <!-- <div id="fb-customer-chat" class="fb-customerchat">
     </div>
 
     <script>
         var chatbox = document.getElementById('fb-customer-chat');
         chatbox.setAttribute("page_id", "215039248357812");
         chatbox.setAttribute("attribution", "biz_inbox");
-    </script>
+    </script> -->
 
     <!-- Your SDK code -->
     <script>
@@ -237,4 +147,5 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
+
 </body>
