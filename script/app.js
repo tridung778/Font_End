@@ -2,41 +2,24 @@ var myApp = angular.module("myApp", ["ngRoute"]);
 
 myApp.controller(
   "homeCtrl",
-  function ($scope, $rootScope, $routeParams, $http) {
-    $scope.products = [];
+  function ($scope, $rootScope, $routeParams, $route, $http) {
+    $rootScope.products = [];
     $rootScope.tours = [];
     $rootScope.tour = {};
-    $rootScope.test = 0;
-    $rootScope.groupedToursArray = []; // Khai báo groupedToursArray ở đây
+    $rootScope.groupedToursArray = [];
     $rootScope.quantity = 0;
-
-    $rootScope.tinhTongTienTours = function () {
-      let tongTienTours = 0;
-      angular.forEach($rootScope.groupedToursArray, function (tour) {
-        tongTienTours += tour.price * tour.quantity;
-      });
-      $rootScope.tongTienTours = tongTienTours;
-    };
-
-    $rootScope.xoaTour = function (tour) {
-      console.log("Xóa tour với id:", tour.id);
-      var index = $rootScope.groupedToursArray.findIndex(
-        (t) => t.id === tour.id
-      );
-      console.log("Index của tour cần xóa:", index);
-      if (index !== -1) {
-        $rootScope.groupedToursArray.splice(index, 1);
-        // Gọi hàm tính tổng tiền sau khi xóa tour
-        $rootScope.tinhTongTienTours();
-      }
-    };
+    $rootScope.tongQuantity = 0;
+    $rootScope.accounts = [];
+    $rootScope.account = {};
 
     // Đọc dữ liệu từ file json
     $http.get("data/tour.json").then(function (response) {
-      $scope.products = response.data;
+      $rootScope.products = response.data;
+      $rootScope.detailPro = $rootScope.products.find(
+        (item) => item.id == $route.current.params.id
+      );
 
-      $scope.count = function (name) {
-        $rootScope.test++;
+      $rootScope.count = function (name) {
         var newUserCopy = angular.copy(name);
         var existingTourIndex = $rootScope.tours.findIndex(
           (tour) => tour.id === newUserCopy.id
@@ -56,7 +39,6 @@ myApp.controller(
           (total, tour) => total + tour.quantity,
           0
         );
-
         // Gộp dữ liệu ở đây
         var groupedTours = {};
         for (var i = 0; i < $rootScope.tours.length; i++) {
@@ -75,20 +57,74 @@ myApp.controller(
         $rootScope.tinhTongTienTours();
       };
 
-      // Lấy sản phẩm với id tương ứng
-      var foundProduct = $scope.products.find(
-        (item) => item.id == $routeParams.id
+      $rootScope.changeMainImage = function (thumbnailSrc) {
+        $rootScope.detailPro.image = thumbnailSrc;
+      };
+
+      $rootScope.resetMainImage = function () {
+        $rootScope.detailPro.image = $rootScope.detailPro.originalImage;
+      };
+      $rootScope.detailPro.originalImage = $rootScope.detailPro.image;
+    });
+
+    $rootScope.tinhTongTienTours = function () {
+      let tongTienTours = 0;
+      angular.forEach($rootScope.groupedToursArray, function (tour) {
+        tongTienTours += tour.price * tour.quantity;
+      });
+      $rootScope.tongTienTours = tongTienTours;
+      $rootScope.tongQuantity = 0;
+      $rootScope.totalQuantity();
+    };
+
+    $rootScope.totalQuantity = function () {
+      angular.forEach($rootScope.groupedToursArray, function (tour) {
+        $rootScope.tongQuantity += tour.quantity;
+      });
+    };
+
+    $rootScope.xoaTour = function (tour) {
+      console.log("Xóa tour với id:", tour.id);
+      var index = $rootScope.groupedToursArray.findIndex(
+        (t) => t.id === tour.id
       );
-      $scope.detailPro = foundProduct;
+      console.log("Index của tour cần xóa:", index);
+      if (index !== -1) {
+        $rootScope.groupedToursArray.splice(index, 1);
+        // Gọi hàm tính tổng tiền sau khi xóa tour
+        $rootScope.tinhTongTienTours();
+      }
+    };
 
-      $scope.changeMainImage = function (thumbnailSrc) {
-        $scope.detailPro.image = thumbnailSrc;
+    $http.get("data/account.json").then(function (response) {
+      $rootScope.accounts = response.data;
+
+      console.log($rootScope);
+      console.log($rootScope);
+
+      $rootScope.insert = function () {
+        var newUserCopy = angular.copy($rootScope.account);
+        $rootScope.accounts.push(newUserCopy);
+        console.log($rootScope.accounts);
       };
 
-      $scope.resetMainImage = function () {
-        $scope.detailPro.image = $scope.detailPro.originalImage;
+      $rootScope.checkLogin = function () {
+        $rootScope.checkWrong = true;
+
+        $rootScope.accounts.forEach((account) => {
+          console.log("Checking:", $rootScope.username, $rootScope.password);
+          if (
+            account.username == $rootScope.username &&
+            account.password == $rootScope.password
+          ) {
+            console.log("Login successful");
+            $rootScope.checkWrong = false;
+          }
+        });
+        if ($rootScope.checkWrong) {
+          console.log("that bai");
+        }
       };
-      $scope.detailPro.originalImage = $scope.detailPro.image;
     });
   }
 );
@@ -97,35 +133,27 @@ myApp.config(function ($routeProvider) {
   $routeProvider
     .when("/datcho", {
       templateUrl: "Component/DatCho.html",
-      controller: "myCtrl",
     })
     .when("/home", {
       templateUrl: "Component/Home.html",
-      controller: "homeCtrl",
     })
     .when("/login", {
       templateUrl: "Component/login.html",
-      controller: "loginCtrl",
     })
     .when("/signup", {
       templateUrl: "Component/signup.html",
-      controller: "loginCtrl",
     })
     .when("/gioithieu", {
       templateUrl: "Component/GioiThieu.html",
-      controller: "myCtrl",
     })
     .when("/giohang", {
       templateUrl: "Component/GioHang.html",
-      controller: "gioHangCtrl",
     })
     .when("/chitiet/:id", {
       templateUrl: "Component/ChiTiet.html",
-      controller: "homeCtrl",
     })
     .otherwise({
       templateUrl: "Component/Home.html",
-      controller: "homeCtrl",
     });
 });
 
