@@ -15,9 +15,15 @@ myApp.controller(
     // Đọc dữ liệu từ file json
     $http.get("data/tour.json").then(function (response) {
       $rootScope.products = response.data;
-      $rootScope.detailPro = $rootScope.products.find(
-        (item) => item.id == $route.current.params.id
-      );
+
+      $rootScope.checkProduct = function (id) {
+        $rootScope.id = id;
+        console.log(id);
+        $rootScope.detailPro = $rootScope.products.find(
+          (item) => item.id == $rootScope.id
+        );
+        console.log($rootScope.detailPro);
+      };
 
       $rootScope.count = function (name) {
         var newUserCopy = angular.copy(name);
@@ -99,30 +105,28 @@ myApp.controller(
     $http.get("data/account.json").then(function (response) {
       $rootScope.accounts = response.data;
 
-      console.log($rootScope);
-      console.log($rootScope);
-
       $rootScope.insert = function () {
         var newUserCopy = angular.copy($rootScope.account);
         $rootScope.accounts.push(newUserCopy);
-        console.log($rootScope.accounts);
+        alert("Signup successful");
       };
 
-      $rootScope.checkLogin = function () {
+      $scope.checkLogin = function () {
         $rootScope.checkWrong = true;
 
         $rootScope.accounts.forEach((account) => {
-          console.log("Checking:", $rootScope.username, $rootScope.password);
           if (
-            account.username == $rootScope.username &&
-            account.password == $rootScope.password
+            account.username == $scope.$$childTail.userName &&
+            account.password == $scope.$$childTail.passWord
           ) {
             console.log("Login successful");
+            alert("Login successful");
             $rootScope.checkWrong = false;
           }
         });
         if ($rootScope.checkWrong) {
-          console.log("that bai");
+          console.log("Login fail");
+          alert("Login fail");
         }
       };
     });

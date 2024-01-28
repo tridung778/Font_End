@@ -63,7 +63,8 @@
                                 <h6>Di chuyển: <span>{{p.vehicle}}</span></h6>
                                 <h6 class="change-color">{{p.price | number}} ₫</h6>
                                 <div class="buttons">
-                                    <a href="#!chitiet/{{p.id}}"><button class="cta-01 mx-2"><span>Xem chi
+                                    <a href="#!chitiet/{{p.id}}" ng-click="checkProduct(p.id)"><button
+                                            class="cta-01 mx-2"><span>Xem chi
                                                 tiết</span></button></a>
                                     <a><button id="product" class="cta-01 toss-effect" ng-click="count(p)"><span>Thêm
                                                 vào
