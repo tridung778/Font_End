@@ -121,8 +121,10 @@
                                 <a class="nav-link active text-light" aria-current="page" href="#">VÉ MÁY BAY</a>
                             </li>
                         </ul>
-                        <form class="d-flex me-5" role="search">
-                            <i class="bi bi-search fs-2"></i>
+                        <form class="d-flex m-2 mx-2" role="search">
+                            <input ng-model="$rootScope.searchItem" class="form-control me-2" type="search"
+                                placeholder="Search" aria-label="Search">
+                            <i ng-click="searchProduct()" class="bi bi-search fs-2"></i>
                         </form>
                         <form class="d-flex me-5" role="cart">
                             <a class="text-light" href="#!giohang"><i class="bi bi-cart fs-2"></i></a>

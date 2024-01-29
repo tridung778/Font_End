@@ -50,9 +50,18 @@
             </div>
             <!-- My code -->
             <div class="container mt-3">
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="quantityEntity" ng-change="updateQuantityEntity()">
+                        <option>4</option>
+                        <option>8</option>
+                        <option>12</option>
+                        <option>16</option>
+                        <option>max</option>
+                    </select>
+                </div>
                 <div class="row">
                     <div class="col-sm-6 col-md-4 col-lg-3 my-3"
-                        ng-repeat="p in products | filter: {kind: 'trong nước', name: ''}  | limitTo: max : page | orderBy : sort">
+                        ng-repeat="p in products | filter: {kind: 'trong nước', name: searchName } | limitTo: maxQuantity : page | orderBy : sort">
                         <div class="card hover14 position-relative">
                             <figure><img src="{{p.image}}" class="card-img-top" alt="...">
                             </figure>
@@ -87,7 +96,7 @@
                 <div class="container mt-3">
                     <div class="row">
                         <div class="col-sm-6 col-md-4 col-lg-3 my-3"
-                            ng-repeat="p in products | filter: {kind: 'quốc tế'} | limitTo: max : page | orderBy : sort">
+                            ng-repeat="p in products | filter: {kind: 'quốc tế', name: searchName } | limitTo: maxQuantity : page | orderBy : sort">
                             <div class="card hover14 position-relative">
                                 <figure><img src="{{p.image}}" class="card-img-top" alt="...">
                                 </figure>
@@ -98,7 +107,8 @@
                                     <h6>Di chuyển: <span>{{p.vehicle}}</span></h6>
                                     <h6 class="change-color">{{p.price | number}} ₫</h6>
                                     <div class="buttons">
-                                        <a href="#!chitiet/{{p.id}}"><button class="cta-01 mx-2"><span>Xem chi
+                                        <a href="#!chitiet/{{p.id}}" ng-click="checkProduct(p.id)"><button
+                                                class="cta-01 mx-2"><span>Xem chi
                                                     tiết</span></button></a>
                                         <a><button id="product" class="cta-01 toss-effect"
                                                 ng-click="count(p)"><span>Thêm

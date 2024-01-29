@@ -11,6 +11,7 @@ myApp.controller(
     $rootScope.tongQuantity = 0;
     $rootScope.accounts = [];
     $rootScope.account = {};
+    $rootScope.maxQuantity = 4;
 
     // Đọc dữ liệu từ file json
     $http.get("data/tour.json").then(function (response) {
@@ -22,10 +23,18 @@ myApp.controller(
         $rootScope.detailPro = $rootScope.products.find(
           (item) => item.id == $rootScope.id
         );
-        console.log($rootScope.detailPro);
       };
 
       $rootScope.count = function (name) {
+        Toastify({
+          text: "Thêm vào giỏ hàng thành công",
+          duration: 3000,
+          position: "left", // `left`, `center` or `right`
+          style: {
+            background: "linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb)",
+          },
+        }).showToast();
+
         var newUserCopy = angular.copy(name);
         var existingTourIndex = $rootScope.tours.findIndex(
           (tour) => tour.id === newUserCopy.id
@@ -63,13 +72,25 @@ myApp.controller(
         $rootScope.tinhTongTienTours();
       };
 
+      // Đổi ảnh khi hover
       $rootScope.changeMainImage = function (thumbnailSrc) {
-        $rootScope.detailPro.image = thumbnailSrc;
+        if ($rootScope.detailPro) {
+          $rootScope.detailPro.image = thumbnailSrc;
+        }
       };
 
       $rootScope.resetMainImage = function () {
-        $rootScope.detailPro.image = $rootScope.detailPro.originalImage;
+        if ($rootScope.detailPro && $rootScope.detailPro.originalImage) {
+          $rootScope.detailPro.image = $rootScope.detailPro.originalImage;
+        }
       };
+
+      $rootScope.$watch("detailPro", function (newDetailPro) {
+        if (newDetailPro) {
+          newDetailPro.originalImage = newDetailPro.image;
+        }
+      });
+
       $rootScope.detailPro.originalImage = $rootScope.detailPro.image;
     });
 
@@ -91,11 +112,10 @@ myApp.controller(
 
     $rootScope.xoaTour = function (tour) {
       console.log("Xóa tour với id:", tour.id);
-      var index = $rootScope.groupedToursArray.findIndex(
-        (t) => t.id === tour.id
-      );
+      var index = $rootScope.tours.findIndex((t) => t.id === tour.id);
       console.log("Index của tour cần xóa:", index);
       if (index !== -1) {
+        $rootScope.tours.splice(index, 1);
         $rootScope.groupedToursArray.splice(index, 1);
         // Gọi hàm tính tổng tiền sau khi xóa tour
         $rootScope.tinhTongTienTours();
@@ -108,7 +128,14 @@ myApp.controller(
       $rootScope.insert = function () {
         var newUserCopy = angular.copy($rootScope.account);
         $rootScope.accounts.push(newUserCopy);
-        alert("Signup successful");
+        Toastify({
+          text: "Đăng ký thành công",
+          duration: 3000,
+          position: "left", // `left`, `center` or `right`
+          style: {
+            background: "linear-gradient(to right, #4776E6, #8E54E9)",
+          },
+        }).showToast();
       };
 
       $scope.checkLogin = function () {
@@ -120,16 +147,40 @@ myApp.controller(
             account.password == $scope.$$childTail.passWord
           ) {
             console.log("Login successful");
-            alert("Login successful");
+            Toastify({
+              text: "Đăng nhập thành công",
+              duration: 3000,
+              position: "left", // `left`, `center` or `right`
+              style: {
+                background: "linear-gradient(to right, #4776E6, #8E54E9)",
+              },
+            }).showToast();
             $rootScope.checkWrong = false;
           }
         });
         if ($rootScope.checkWrong) {
           console.log("Login fail");
-          alert("Login fail");
+          Toastify({
+            text: "Đăng nhập thất bại",
+            duration: 3000,
+            position: "left", // `left`, `center` or `right`
+            style: {
+              background: "linear-gradient(to right, #4776E6, #8E54E9)",
+            },
+          }).showToast();
         }
       };
     });
+
+    $scope.searchProduct = function () {
+      $rootScope.searchName = $scope.$$childHead.$rootScope.searchItem;
+      console.log($scope.$$childHead.$rootScope);
+    };
+
+    $scope.updateQuantityEntity = function () {
+      $rootScope.maxQuantity = $scope.$$childTail.quantityEntity;
+      console.log($scope.$$childTail.quantityEntity);
+    };
   }
 );
 
@@ -186,3 +237,14 @@ $(document).ready(function () {
     audio.play();
   });
 });
+
+function datHang() {
+  Toastify({
+    text: "Đặt hàng thành công",
+    duration: 3000,
+    position: "left", // `left`, `center` or `right`
+    style: {
+      background: "linear-gradient(to right, #e55d87, #5fc3e4)",
+    },
+  }).showToast();
+}

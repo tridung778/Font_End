@@ -26,12 +26,14 @@
                         <button class="btn btn-danger" ng-click="xoaTour(tour)">Xóa</button>
                     </td>
                 </tr>
-
             </table>
+            <div class="txt change-color" id="txt" ng-show="tongQuantity==0">
+                <b>N</b><b>O</b><b>T</b><b>H</b><b>I</b><b>N</b><b>G</b>
+            </div>
             <hr>
             <div class=" mb-5 d-flex justify-content-between align-item-center" ng-init="tinhTongTienTours()">
-                <button class="btn btn-success">Đặt hàng</button>
-                <h2>Tổng: <span>{{tongTienTours | number}}</span>₫</h2>
+                <button class="btn btn-success" onclick="datHang()" ng-hide="tongQuantity==0">Đặt hàng</button>
+                <h2 ng-hide="tongQuantity==0">Tổng: <span>{{tongTienTours | number}}</span>₫</h2>
             </div>
         </div>
     </main>
