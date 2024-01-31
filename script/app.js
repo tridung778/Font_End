@@ -11,7 +11,9 @@ myApp.controller(
     $rootScope.tongQuantity = 0;
     $rootScope.accounts = [];
     $rootScope.account = {};
-    $rootScope.maxQuantity = 4;
+    $rootScope.maxQuantity = 8;
+    $rootScope.giamGia = 1;
+    $scope.sort = "Price";
 
     // Đọc dữ liệu từ file json
     $http.get("data/tour.json").then(function (response) {
@@ -174,12 +176,38 @@ myApp.controller(
 
     $scope.searchProduct = function () {
       $rootScope.searchName = $scope.$$childHead.$rootScope.searchItem;
-      console.log($scope.$$childHead.$rootScope);
     };
 
     $scope.updateQuantityEntity = function () {
       $rootScope.maxQuantity = $scope.$$childTail.quantityEntity;
+      console.log($rootScope.products.price);
       console.log($scope.$$childTail.quantityEntity);
+    };
+
+    $scope.updatePriceEntity = function () {
+      if ($scope.$$childTail.price == "Thấp - cao") {
+        $scope.sort = "price";
+        console.log("sorting");
+      } else if ($scope.$$childTail.price == "Cao - thấp") {
+        $scope.sort = "-price";
+        console.log("sorting");
+      }
+    };
+
+    $scope.tinhGiamGia = function () {
+      $http.get("data/coupon.json").then(function (response) {
+        $rootScope.coupons = response.data;
+        $scope.checkGiamGia = true;
+        $rootScope.coupons.forEach((coupon) => {
+          if (coupon.code == $rootScope.$$childHead.$$childTail.Coupon) {
+            $rootScope.giamGia = 1 - (coupon.percent * 1) / 100;
+            $scope.checkGiamGia = false;
+          }
+        });
+        if ($scope.checkGiamGia) {
+          $rootScope.giamGia = 1;
+        }
+      });
     };
   }
 );
@@ -240,7 +268,7 @@ $(document).ready(function () {
 
 function datHang() {
   Toastify({
-    text: "Đặt hàng thành công",
+    text: "Thanh toán thành công",
     duration: 3000,
     position: "left", // `left`, `center` or `right`
     style: {

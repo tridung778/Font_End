@@ -1,40 +1,76 @@
 <body>
-    <main>
-        <div class="container">
-            <table class="table table-bordered" style="margin-top: 100px;">
-                <tr>
-                    <td>Tour</td>
-                    <td>Giá Tour</td>
-                    <td>Số chỗ</td>
-                    <td>Tổng tiền</td>
-                    <td>Chỉnh sửa</td>
-                </tr>
-                <tr ng-repeat="tour in groupedToursArray">
-                    <td class="d-flex p-0">
-                        <img src="{{tour.image}}" alt="" class="img-fluid me-3 " style="max-width: 80px; height: 60px;">
-                        <p>{{tour.name}}</p>
-                    </td>
-                    <td ng-model="tour.giaTien">{{tour.price | number}}₫</td>
-                    <td>
-                        <input type="number" min="1" step="1" ng-change="tinhTongTienTours()" ng-model="tour.quantity"
-                            style="max-width: 50px;" />
-                    </td>
-                    <td>
-                        {{(tour.price * tour.quantity) | number}}₫
-                    </td>
-                    <td>
-                        <button class="btn btn-danger" ng-click="xoaTour(tour)">Xóa</button>
-                    </td>
-                </tr>
-            </table>
+
+    <main id="cart" style="max-width:1200px;">
+        <h1>Giỏ hàng của bạn</h1>
+        <div class="container-fluid mb-5">
+            <div class="row align-items-start">
+                <div class="col-12 col-sm-8 items">
+                    <!--1-->
+                    <div class="cartItem row align-items-start" ng-repeat="tour in groupedToursArray">
+                        <div class="col-3 mb-2">
+                            <img class="w-100" src="{{tour.image}}" alt="art image">
+                        </div>
+                        <div class="col-3 mb-2">
+                            <h6 class="">{{tour.name}}</h6>
+                            <p class="pl-1 mb-0">{{tour.duration}}</p>
+                            <p class="pl-1 mb-0">{{tour.vehicle}}</p>
+                        </div>
+                        <div class="col-2">
+                            <input type="number" min="1" step="1" ng-change="tinhTongTienTours()"
+                                ng-model="tour.quantity" style="max-width: 50px;" />
+                        </div>
+                        <div class="col-2">
+                            <p id="cartItem1Price" ng-model="tour.giaTien">{{tour.price | number}}₫</p>
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-danger" ng-click="xoaTour(tour)">Xóa</button>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-4 p-3 proceed form" ng-hide="tongQuantity==0">
+                    <div class="row m-0" ng-init="tinhTongTienTours()">
+                        <div class="col-sm-8 p-0">
+                            <h6>Thanh toán</h6>
+                        </div>
+                        <div class="col-sm-4 p-0">
+                            <p id="subtotal"><span>{{tongTienTours | number}}</span>₫</p>
+                        </div>
+                    </div>
+                    <div class="row m-0">
+                        <div class="col-sm-8 p-0 ">
+                            <h6>Mã giảm giá</h6>
+                        </div>
+                        <div class="col-sm-4 p-0">
+                            <input type="text" style="max-width: 115px;" ng-model="Coupon" ng-change="tinhGiamGia()">
+                        </div>
+                    </div>
+                    <div class="row m-0">
+                        <div class="col-sm-8 p-0 ">
+                            <h6>Giảm</h6>
+                        </div>
+                        <div class="col-sm-4 p-0">
+                            <p id="tax">{{(tongTienTours - (tongTienTours * giamGia)) | number }}₫
+                            </p>
+                            <span class="text-danger">-{{100-giamGia*100}}%</span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mx-0 mb-2" ng-init="tinhGiamGia()">
+                        <div class="col-sm-8 p-0 d-inline">
+                            <h5>Tổng thanh toán</h5>
+                        </div>
+                        <div class="col-sm-4 p-0">
+                            <p id="total" class="change-color">{{(tongTienTours * giamGia) | number}}₫</p>
+                        </div>
+                    </div>
+                    ><button id="btn-checkout" onclick="datHang()" class="shopnow"><span>Thanh toán</span></button>
+                </div>
+            </div>
             <div class="txt change-color" id="txt" ng-show="tongQuantity==0">
                 <b>N</b><b>O</b><b>T</b><b>H</b><b>I</b><b>N</b><b>G</b>
             </div>
-            <hr>
-            <div class=" mb-5 d-flex justify-content-between align-item-center" ng-init="tinhTongTienTours()">
-                <button class="btn btn-success" onclick="datHang()" ng-hide="tongQuantity==0">Đặt hàng</button>
-                <h2 ng-hide="tongQuantity==0">Tổng: <span>{{tongTienTours | number}}</span>₫</h2>
-            </div>
+        </div>
         </div>
     </main>
 </body>

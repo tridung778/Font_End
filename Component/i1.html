@@ -1,0 +1,40 @@
+<body>
+    <main>
+        <div class="container">
+            <table class="table table-bordered" style="margin-top: 100px;">
+                <tr>
+                    <td>Tour</td>
+                    <td>Giá Tour</td>
+                    <td>Số chỗ</td>
+                    <td>Tổng tiền</td>
+                    <td>Chỉnh sửa</td>
+                </tr>
+                <tr ng-repeat="tour in groupedToursArray">
+                    <td class="d-flex p-0">
+                        <img src="{{tour.image}}" alt="" class="img-fluid me-3 " style="max-width: 80px; height: 60px;">
+                        <p>{{tour.name}}</p>
+                    </td>
+                    <td ng-model="tour.giaTien">{{tour.price | number}}₫</td>
+                    <td>
+                        <input type="number" min="1" step="1" ng-change="tinhTongTienTours()" ng-model="tour.quantity"
+                            style="max-width: 50px;" />
+                    </td>
+                    <td>
+                        {{(tour.price * tour.quantity) | number}}₫
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" ng-click="xoaTour(tour)">Xóa</button>
+                    </td>
+                </tr>
+            </table>
+            <div class="txt change-color" id="txt" ng-show="tongQuantity==0">
+                <b>N</b><b>O</b><b>T</b><b>H</b><b>I</b><b>N</b><b>G</b>
+            </div>
+            <hr>
+            <div class=" mb-5 d-flex justify-content-between align-item-center" ng-init="tinhTongTienTours()">
+                <button class="btn btn-success" onclick="datHang()" ng-hide="tongQuantity==0">Đặt hàng</button>
+                <h2 ng-hide="tongQuantity==0">Tổng: <span>{{tongTienTours | number}}</span>₫</h2>
+            </div>
+        </div>
+    </main>
+</body>

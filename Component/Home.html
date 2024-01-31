@@ -22,7 +22,7 @@
     </div>
     <main>
         <!-- Slider -->
-        <div id="carouselExample" class="carousel slide mt-5" data-bs-ride="carousel">
+        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
                     aria-current="true" aria-label="Slide 1"></button>
@@ -49,16 +49,33 @@
                 <h1>DU LỊCH TRONG NƯỚC</h1>
             </div>
             <!-- My code -->
-            <div class="container mt-3">
-                <div class="col-sm-3">
-                    <select class="form-control" ng-model="quantityEntity" ng-change="updateQuantityEntity()">
-                        <option>4</option>
-                        <option>8</option>
-                        <option>12</option>
-                        <option>16</option>
-                        <option>max</option>
-                    </select>
+            <div class="d-flex justify-content-between">
+                <div style="display: flex; align-items: center;">
+                    <span>Hiển thị: </span>
+                    <div style="max-width: 500px; margin-right: 10px;">
+                        <select class="form-control" ng-model="quantityEntity" ng-change="updateQuantityEntity()">
+                            <option value="">số</option>
+                            <option>4</option>
+                            <option>8</option>
+                            <option>12</option>
+                            <option>16</option>
+                            <option>max</option>
+                        </select>
+                    </div>
+                    <span>mục</span>
                 </div>
+                <div style="display: flex; align-items: center;">
+                    <span>Giá: </span>
+                    <div style="max-width: 500px;">
+                        <select class="form-control" ng-model="price" ng-change="updatePriceEntity()">
+                            <option value="">Sắp xếp</option>
+                            <option>Thấp - cao</option>
+                            <option>Cao - thấp</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="container mt-3">
                 <div class="row">
                     <div class="col-sm-6 col-md-4 col-lg-3 my-3"
                         ng-repeat="p in products | filter: {kind: 'trong nước', name: searchName } | limitTo: maxQuantity : page | orderBy : sort">
