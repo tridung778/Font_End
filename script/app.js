@@ -14,6 +14,7 @@ myApp.controller(
     $rootScope.maxQuantity = 8;
     $rootScope.giamGia = 1;
     $scope.sort = "Price";
+    $scope.user = "";
 
     // Đọc dữ liệu từ file json
     $http.get("data/tour.json").then(function (response) {
@@ -142,17 +143,19 @@ myApp.controller(
 
       $scope.checkLogin = function () {
         $rootScope.checkWrong = true;
+        $scope.index = 0;
 
         $rootScope.accounts.forEach((account) => {
           if (
             account.username == $scope.$$childTail.userName &&
             account.password == $scope.$$childTail.passWord
           ) {
-            console.log("Login successful");
+            window.location.href = "#!home";
+            $scope.user = account.username;
             Toastify({
               text: "Đăng nhập thành công",
               duration: 3000,
-              position: "left", // `left`, `center` or `right`
+              position: "left",
               style: {
                 background: "linear-gradient(to right, #4776E6, #8E54E9)",
               },
@@ -165,7 +168,44 @@ myApp.controller(
           Toastify({
             text: "Đăng nhập thất bại",
             duration: 3000,
-            position: "left", // `left`, `center` or `right`
+            position: "left",
+            style: {
+              background: "linear-gradient(to right, #4776E6, #8E54E9)",
+            },
+          }).showToast();
+        }
+      };
+
+      $scope.changePassword = function (username, newPassword) {
+        $rootScope.checkWrong = true;
+        $rootScope.accounts.forEach((account) => {
+          if (
+            account.username == $scope.$$childTail.userName &&
+            account.password == $scope.$$childTail.passWord
+          ) {
+            for (var i = 0; i < $scope.accounts.length; i++) {
+              if ($scope.accounts[i].username === username) {
+                $scope.accounts[i].password = newPassword;
+                window.location.href = "#!home";
+                break;
+              }
+            }
+            Toastify({
+              text: "Đổi mật khẩu thành công!",
+              duration: 3000,
+              position: "left",
+              style: {
+                background: "linear-gradient(to right, #4776E6, #8E54E9)",
+              },
+            }).showToast();
+            $rootScope.checkWrong = false;
+          }
+        });
+        if ($rootScope.checkWrong) {
+          Toastify({
+            text: "Tài khoản hoặc mật khẩu không chính xác",
+            duration: 3000,
+            position: "left",
             style: {
               background: "linear-gradient(to right, #4776E6, #8E54E9)",
             },
@@ -173,6 +213,11 @@ myApp.controller(
         }
       };
     });
+
+    $scope.exit = function () {
+      $scope.user = null;
+      window.location.href = "#!login";
+    };
 
     $scope.searchProduct = function () {
       $rootScope.searchName = $scope.$$childHead.$rootScope.searchItem;
@@ -226,6 +271,9 @@ myApp.config(function ($routeProvider) {
     .when("/signup", {
       templateUrl: "Component/signup.html",
     })
+    .when("/changePass", {
+      templateUrl: "Component/changePass.html",
+    })
     .when("/gioithieu", {
       templateUrl: "Component/GioiThieu.html",
     })
@@ -236,7 +284,7 @@ myApp.config(function ($routeProvider) {
       templateUrl: "Component/ChiTiet.html",
     })
     .otherwise({
-      templateUrl: "Component/Home.html",
+      templateUrl: "Component/login.html",
     });
 });
 
