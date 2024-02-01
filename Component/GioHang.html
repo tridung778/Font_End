@@ -1,6 +1,6 @@
 <body>
     <main id="cart" style="max-width:1200px;">
-        <h1>Giỏ hàng của bạn</h1>
+        <h1 class="d-flex justify-content-center">Giỏ hàng của bạn</h1>
         <div class="container-fluid mb-5">
             <div class="row align-items-start">
                 <div class="col-12 col-sm-8 items">
@@ -63,7 +63,7 @@
                             <p id="total" class="change-color">{{(tongTienTours * giamGia) | number}}₫</p>
                         </div>
                     </div>
-                    ><button id="btn-checkout" onclick="datHang()" class="shopnow"><span>Thanh toán</span></button>
+                    <button id="btn-checkout" onclick="datHang()" class="shopnow"><span>Thanh toán</span></button>
                 </div>
             </div>
             <div class="txt change-color" id="txt" ng-show="tongQuantity==0">
