@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title>Đăng ký</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-
 <body>
 
     <div class="login-page bg-light">
@@ -22,12 +11,16 @@
                                 <div class="form-left h-100 py-5 px-5">
                                     <form action="" class="row g-4">
                                         <div class="col-12">
-                                            <label>Tên đăng nhập<span class="text-danger">*</span></label>
+                                            <label>Tên đăng ký<span class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
                                                 <input ng-model="account.username" type="text" class="form-control"
-                                                    placeholder="Nhập tên đăng nhập">
+                                                    placeholder="Nhập tên đăng ký">
                                             </div>
+                                            <span ng-hide="account.username.length > 4" class="text-danger mt-5">Tên
+                                                đăng ký phải
+                                                chứa ít nhất 5 ký
+                                                tự!</span>
                                         </div>
 
                                         <div class="col-12">
@@ -37,6 +30,9 @@
                                                 <input ng-model="account.password" id="myInput" type="passWord"
                                                     class="form-control" placeholder="Nhập mật khẩu">
                                             </div>
+                                            <span ng-hide="account.password.length > 4" class="text-danger mt-5">Mật
+                                                khẩu
+                                                phải chứa ít nhất 5 ký tự!</span>
                                         </div>
 
                                         <div class="col-sm-6">
@@ -53,7 +49,8 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <a ng-click="insert()" href="#!login"
+                                            <a ng-show="account.password.length > 4 && account.username.length > 4"
+                                                ng-click="insert()" href="#!login"
                                                 class="btn btn-success px-4 float-end mt-4">Đăng
                                                 Ký</a>
                                         </div>
@@ -63,7 +60,7 @@
                             <div class="col-md-5 ps-0 d-none d-md-block">
                                 <div class="form-right h-100 bg-success text-white text-center pt-5">
                                     <img src="./img/Logo_White.jpg" class="img-fluid" alt=""
-                                        style="width: 200px; margin-top: 60px;">
+                                        style="width: 200px; align-content: center;">
                                     <h2 class="fs-1">Welcome To!!!</h2>
                                 </div>
                             </div>
@@ -74,6 +71,3 @@
         </div>
     </div>
 </body>
-
-
-</html>

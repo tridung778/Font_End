@@ -23,8 +23,9 @@
                                                 <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
                                                 <input ng-model="passWord" id="myInput" type="password"
                                                     class="form-control myInput" placeholder="Nhập mật khẩu">
-
                                             </div>
+                                            <span ng-hide="passWord.length > 4" class="text-danger mt-5">Mật khẩu
+                                                phải chứa ít nhất 5 ký tự!</span>
                                         </div>
                                         <div class="col-12">
                                             <label>Mật khẩu mới<span class="text-danger">*</span></label>
@@ -32,8 +33,9 @@
                                                 <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
                                                 <input ng-model="newPassword" id="myInput" type="password"
                                                     class="form-control myInput" placeholder="Nhập mật khẩu">
-
                                             </div>
+                                            <span ng-hide="newPassword.length > 4" class="text-danger mt-5">Mật khẩu
+                                                phải chứa ít nhất 5 ký tự!</span>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-check">
@@ -44,7 +46,8 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <a ng-click="changePassword(userName, newPassword)"
+                                            <a ng-show="passWord.length > 4 && userName.length > 4 && newPassword.length > 4"
+                                                ng-click="changePassword(userName, newPassword)"
                                                 class="btn btn-success px-4 float-end mt-4">Đổi
                                                 mật khẩu</a>
                                         </div>

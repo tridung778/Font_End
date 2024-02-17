@@ -1,17 +1,7 @@
 <body>
     <header class="header fixed-top">
         <!-- place navbar here -->
-        <div class="header-top text-light d-flex justify-content-between align-item-center bg-success bg-gradient">
-            <span class="ms-5">1900 1808</span>
-            <div class="me-5">
-                <a href="#!datcho" style="text-decoration: none;" class="me-2 text-light"><span>CHECK
-                        TOUR</span></a>
-                <span><a class="text-light link-underline link-underline-opacity-0" href="#!changePass"
-                        ng-bind="user">ĐĂNG
-                        NHẬP</a></span>
-            </div>
-        </div>
-        <div class="header-bottom bg-success text-light">
+        <div class="header-bottom bg-success text-light fixed-top">
             <nav class="navbar navbar-expand-lg ms-5 p-0">
                 <div class="container-fluid">
                     <a href="#!home"><img src="./img/Logo_White.jpg" class="img-fluid" alt=""></a>
@@ -102,36 +92,52 @@
                                 </div>
                             </li>
                             <!-- Tin tuc -->
-                            <li class="nav-item dropdown">
+                            <!-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-light" aria-disabled="true" href="#"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     TÀI KHOẢN
                                 </a>
                                 <div class="dropdown-menu">
                                     <ul>
-                                        <li><a class="dropdown-item" href="#!login">Đăng nhập</a></li>
-                                        <li><a class="dropdown-item" href="#!signup">Đăng ký</a></li>
+                                        <li ng-hide="loginSuc"><a class="dropdown-item" href="#!login">Đăng nhập</a>
+                                        </li>
+                                        <li ng-hide="loginSuc"><a class="dropdown-item" href="#!signup">Đăng ký</a></li>
                                         <li><a class="dropdown-item" href="#!changePass">Đổi mật khẩu</a></li>
                                         <li><a class="dropdown-item" ng-click="exit()">Đăng xuất</a></li>
                                     </ul>
                                 </div>
-                            </li>
+                            </li> -->
                             <li class="nav-item">
                                 <a class="nav-link active text-light" aria-current="page" href="#!gioithieu">Giới
                                     thiệu</a>
                             </li>
+                            <li class="nav-item">
+                                <a ng-hide="showAvatar" class="nav-link active text-light" aria-current="page"
+                                    href="#!login">Đăng nhập</a>
+                            </li>
                         </ul>
-                        <form class="d-flex m-2 mx-2" role="search">
-                            <input ng-model="$rootScope.searchItem" class="form-control me-2" type="search"
-                                placeholder="Search" aria-label="Search">
-                            <i ng-click="searchProduct()" class="bi bi-search fs-2"></i>
+                        <form class="d-flex mx-4 " style="align-items: center;" role="search">
+                            <input ng-change="searchProduct()" ng-model="$rootScope.searchItem"
+                                class="form-control me-4" style="height: 40px;" type="search" placeholder="Search"
+                                aria-label="Search">
                         </form>
-                        <form class="d-flex me-5" role="cart">
+                        <form class="d-flex me-2" role="cart">
                             <a class="text-light" href="#!giohang"><i class="bi bi-cart fs-2"></i></a>
                             <div id="cartIcon"
                                 class="mt-1 bg-light text-dark d-flex rounded-circle text-center align-item-center justify-content-center"
                                 style="height: 17px; width: 17px;">
                                 {{tongQuantity }}
+                            </div>
+                            <div class="ms-1">
+                                <div class="dropdown">
+                                    <img ng-show="showAvatar" class="dropbtn"
+                                        src="https://bloganchoi.com/wp-content/uploads/2022/02/avatar-trang-y-nghia.jpeg"
+                                        alt="">
+                                    <div class="dropdown-content">
+                                        <span><a href="#!changePass">Đổi mật khẩu</a></span>
+                                        <span><a ng-click="exit()" class="text-dark">Đăng xuất</a></span>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>

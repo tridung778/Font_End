@@ -16,6 +16,10 @@
                                                 <input ng-model="userName" type="text" class="form-control"
                                                     placeholder="Nhập tên đăng nhập">
                                             </div>
+                                            <span ng-hide="userName.length > 4" class="text-danger mt-5">Tên đăng nhập
+                                                phải
+                                                chứa ít nhất 5 ký
+                                                tự!</span>
                                         </div>
 
                                         <div class="col-12">
@@ -24,8 +28,9 @@
                                                 <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
                                                 <input ng-model="passWord" id="myInput" type="password"
                                                     class="form-control" placeholder="Nhập mật khẩu">
-
                                             </div>
+                                            <span ng-hide="passWord.length > 4" class="text-danger mt-5">Mật khẩu
+                                                phải chứa ít nhất 5 ký tự!</span>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-check">

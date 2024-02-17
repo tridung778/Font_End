@@ -46,7 +46,6 @@
   }
   /*main*/
   main:before {
-    content: "";
     display: block;
     height: 88px;
   }

@@ -15,6 +15,10 @@ myApp.controller(
     $rootScope.giamGia = 1;
     $scope.sort = "Price";
     $scope.user = "";
+    $scope.showAvatar = false;
+    $scope.checkUsername = false;
+    $scope.checkPassword = false;
+    $scope.checkPasswordRelease = false;
 
     // Đọc dữ liệu từ file json
     $http.get("data/tour.json").then(function (response) {
@@ -29,50 +33,55 @@ myApp.controller(
       };
 
       $rootScope.count = function (name) {
-        Toastify({
-          text: "Thêm vào giỏ hàng thành công",
-          duration: 3000,
-          position: "left", // `left`, `center` or `right`
-          style: {
-            background: "linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb)",
-          },
-        }).showToast();
+        if ($scope.showAvatar) {
+          Toastify({
+            text: "Thêm vào giỏ hàng thành công",
+            duration: 3000,
+            position: "left",
+            style: {
+              background:
+                "linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb)",
+            },
+          }).showToast();
 
-        var newUserCopy = angular.copy(name);
-        var existingTourIndex = $rootScope.tours.findIndex(
-          (tour) => tour.id === newUserCopy.id
-        );
+          var newUserCopy = angular.copy(name);
+          var existingTourIndex = $rootScope.tours.findIndex(
+            (tour) => tour.id === newUserCopy.id
+          );
 
-        if (existingTourIndex !== -1) {
-          // Nếu tour đã tồn tại, tăng giá trị quantity của tour cụ thể
-          $rootScope.tours[existingTourIndex].quantity++;
-        } else {
-          // Nếu tour chưa tồn tại, thêm mới và đặt quantity là 1
-          newUserCopy.quantity = 1;
-          $rootScope.tours.push(newUserCopy);
-        }
-
-        // Tính tổng quantity từ tất cả các tours
-        $rootScope.quantity = $rootScope.tours.reduce(
-          (total, tour) => total + tour.quantity,
-          0
-        );
-        // Gộp dữ liệu ở đây
-        var groupedTours = {};
-        for (var i = 0; i < $rootScope.tours.length; i++) {
-          var tour = $rootScope.tours[i];
-          if (!groupedTours[tour.id]) {
-            groupedTours[tour.id] = tour;
+          if (existingTourIndex !== -1) {
+            // Nếu tour đã tồn tại, tăng giá trị quantity của tour cụ thể
+            $rootScope.tours[existingTourIndex].quantity++;
           } else {
-            groupedTours[tour.id].price += tour.price;
-            groupedTours[tour.id].duration += tour.duration;
-            groupedTours[tour.id].quantity += tour.quantity;
+            // Nếu tour chưa tồn tại, thêm mới và đặt quantity là 1
+            newUserCopy.quantity = 1;
+            $rootScope.tours.push(newUserCopy);
           }
-        }
 
-        // Cập nhật biến groupedToursArray
-        $rootScope.groupedToursArray = Object.values(groupedTours);
-        $rootScope.tinhTongTienTours();
+          // Tính tổng quantity từ tất cả các tours
+          $rootScope.quantity = $rootScope.tours.reduce(
+            (total, tour) => total + tour.quantity,
+            0
+          );
+          // Gộp dữ liệu ở đây
+          var groupedTours = {};
+          for (var i = 0; i < $rootScope.tours.length; i++) {
+            var tour = $rootScope.tours[i];
+            if (!groupedTours[tour.id]) {
+              groupedTours[tour.id] = tour;
+            } else {
+              groupedTours[tour.id].price += tour.price;
+              groupedTours[tour.id].duration += tour.duration;
+              groupedTours[tour.id].quantity += tour.quantity;
+            }
+          }
+
+          // Cập nhật biến groupedToursArray
+          $rootScope.groupedToursArray = Object.values(groupedTours);
+          $rootScope.tinhTongTienTours();
+        } else {
+          swal("Thông báo!", "Vui lòng đăng nhập để sử dụng dịch vụ!", "info");
+        }
       };
 
       // Đổi ảnh khi hover
@@ -120,6 +129,7 @@ myApp.controller(
       if (index !== -1) {
         $rootScope.tours.splice(index, 1);
         $rootScope.groupedToursArray.splice(index, 1);
+
         // Gọi hàm tính tổng tiền sau khi xóa tour
         $rootScope.tinhTongTienTours();
       }
@@ -131,14 +141,7 @@ myApp.controller(
       $rootScope.insert = function () {
         var newUserCopy = angular.copy($rootScope.account);
         $rootScope.accounts.push(newUserCopy);
-        Toastify({
-          text: "Đăng ký thành công",
-          duration: 3000,
-          position: "left", // `left`, `center` or `right`
-          style: {
-            background: "linear-gradient(to right, #4776E6, #8E54E9)",
-          },
-        }).showToast();
+        swal("Chúc mừng!", "Đăng ký thành công!", "success");
       };
 
       $scope.checkLogin = function () {
@@ -151,7 +154,8 @@ myApp.controller(
             account.password == $scope.$$childTail.passWord
           ) {
             window.location.href = "#!home";
-            $scope.user = account.username;
+            $scope.userName = account.username;
+            $scope.showAvatar = true;
             Toastify({
               text: "Đăng nhập thành công",
               duration: 3000,
@@ -216,6 +220,8 @@ myApp.controller(
 
     $scope.exit = function () {
       $scope.user = null;
+      $scope.showAvatar = false;
+      $scope.userName = "";
       window.location.href = "#!login";
     };
 
@@ -225,17 +231,13 @@ myApp.controller(
 
     $scope.updateQuantityEntity = function () {
       $rootScope.maxQuantity = $scope.$$childTail.quantityEntity;
-      console.log($rootScope.products.price);
-      console.log($scope.$$childTail.quantityEntity);
     };
 
     $scope.updatePriceEntity = function () {
       if ($scope.$$childTail.price == "Thấp - cao") {
         $scope.sort = "price";
-        console.log("sorting");
       } else if ($scope.$$childTail.price == "Cao - thấp") {
         $scope.sort = "-price";
-        console.log("sorting");
       }
     };
 
@@ -253,6 +255,13 @@ myApp.controller(
           $rootScope.giamGia = 1;
         }
       });
+    };
+
+    $scope.datHang = function () {
+      $rootScope.tours = [];
+      $rootScope.groupedToursArray = [];
+      $scope.tinhTongTienTours();
+      swal("Chúc mừng!", "Thanh toán thành công!", "success");
     };
   }
 );
@@ -289,19 +298,19 @@ myApp.config(function ($routeProvider) {
 });
 
 // Header
-window.addEventListener("scroll", function () {
-  var headerTop = document.querySelector(".header-top");
-  var headerBot = document.querySelector(".header-bottom");
-  var header = document.querySelector(".header");
-  if (this.window.scrollY > 450) {
-    header.classList.remove("fixed-top");
-    headerTop.classList.remove("fixed-top");
-    headerBot.classList.add("fixed-top");
-  } else if (this.window.scrollY < 450) {
-    headerBot.classList.remove("fixed-top");
-    header.classList.add("fixed-top");
-  }
-});
+// window.addEventListener("scroll", function () {
+//   var headerTop = document.querySelector(".header-top");
+//   var headerBot = document.querySelector(".header-bottom");
+//   var header = document.querySelector(".header");
+//   if (this.window.scrollY > 450) {
+//     header.classList.remove("fixed-top");
+//     headerTop.classList.remove("fixed-top");
+//     headerBot.classList.add("fixed-top");
+//   } else if (this.window.scrollY < 450) {
+//     headerBot.classList.remove("fixed-top");
+//     header.classList.add("fixed-top");
+//   }
+// });
 
 // Thong bao
 const audio = document.querySelector("audio");
@@ -313,14 +322,3 @@ $(document).ready(function () {
     audio.play();
   });
 });
-
-function datHang() {
-  Toastify({
-    text: "Thanh toán thành công",
-    duration: 3000,
-    position: "left", // `left`, `center` or `right`
-    style: {
-      background: "linear-gradient(to right, #e55d87, #5fc3e4)",
-    },
-  }).showToast();
-}
